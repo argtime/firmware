@@ -660,15 +660,26 @@ String TagOMatic::save_file_headless(String filename) {
     return ""; // Error
 }
 
+int TagOMatic::emulate_tag_headless() {
+    if (!_rfid) return RFIDInterface::NOT_IMPLEMENTED;
+    return _rfid->emulate();
+}
+
 int TagOMatic::load_file_headless(String filename) {
     if (!_rfid) return RFIDInterface::TAG_NOT_PRESENT;
 
     FS *fs;
     if (!getFsStorage(fs)) return RFIDInterface::FAILURE;
 
-    if (!filename.endsWith(".rfid")) { filename += ".rfid"; }
-
-    String filepath = "/BruceRFID/" + filename;
+    String filepath;
+    if (filename.startsWith("/")) {
+        // Full path provided (e.g. from dialog.pickFile())
+        filepath = filename;
+        if (!filepath.endsWith(".rfid")) { filepath += ".rfid"; }
+    } else {
+        if (!filename.endsWith(".rfid")) { filename += ".rfid"; }
+        filepath = "/BruceRFID/" + filename;
+    }
 
     if (!(*fs).exists(filepath)) {
         return RFIDInterface::TAG_NOT_PRESENT; // File not found

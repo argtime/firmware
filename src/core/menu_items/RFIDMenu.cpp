@@ -46,6 +46,18 @@ void RFIDMenu::optionsMenu() {
         options.insert(options.begin() + 3, {"SRIX Tool", [=]() { PN532_SRIX(); }});
     }
 #endif
+    if (bruceConfigPins.rfidModule == PN532_I2C_MODULE) {
+        // Emulate tag (card emulation) via PN532 I2C — available on T-Embed CC1101
+        for (size_t i = 0; i < options.size(); i++) {
+            if (options[i].label == "Write NDEF") {
+                options.insert(
+                    options.begin() + i + 1,
+                    {"Emulate tag", [=]() { TagOMatic(TagOMatic::EMULATE_MODE); }}
+                );
+                break;
+            }
+        }
+    }
 #endif
 
     addOptionToMainMenu();

@@ -17,6 +17,7 @@ extern "C" {
 JSValue native_rfidRead(JSContext *ctx, JSValue *this_val, int argc, JSValue *argv);
 JSValue native_rfidReadUID(JSContext *ctx, JSValue *this_val, int argc, JSValue *argv);
 JSValue native_rfidWrite(JSContext *ctx, JSValue *this_val, int argc, JSValue *argv);
+JSValue native_rfidEmulate(JSContext *ctx, JSValue *this_val, int argc, JSValue *argv);
 JSValue native_rfidSave(JSContext *ctx, JSValue *this_val, int argc, JSValue *argv);
 JSValue native_rfidLoad(JSContext *ctx, JSValue *this_val, int argc, JSValue *argv);
 JSValue native_rfidClear(JSContext *ctx, JSValue *this_val, int argc, JSValue *argv);
