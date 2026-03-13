@@ -541,6 +541,7 @@ static const JSPropDef js_rfid[] = {
     JS_CFUNC_DEF("read", 1, native_rfidRead),
     JS_CFUNC_DEF("readUID", 1, native_rfidReadUID),
     JS_CFUNC_DEF("write", 1, native_rfidWrite),
+    JS_CFUNC_DEF("emulate", 0, native_rfidEmulate),
     JS_CFUNC_DEF("save", 1, native_rfidSave),
     JS_CFUNC_DEF("load", 1, native_rfidLoad),
     JS_CFUNC_DEF("clear", 0, native_rfidClear),

@@ -130,7 +130,44 @@ JSValue native_rfidWrite(JSContext *ctx, JSValue *this_val, int argc, JSValue *a
     return obj;
 }
 
-JSValue native_rfidSave(JSContext *ctx, JSValue *this_val, int argc, JSValue *argv) {
+JSValue native_rfidEmulate(JSContext *ctx, JSValue *this_val, int argc, JSValue *argv) {
+    // usage: rfidEmulate();
+    // Emulates the currently loaded/read tag. Call rfidLoad() first to load a .rfid file.
+    // returns: { success: boolean, message: string }
+
+    TagOMatic *tagReader = getTagReader();
+
+    int result = tagReader->emulate_tag_headless();
+
+    JSValue obj = JS_NewObject(ctx);
+
+    switch (result) {
+        case RFIDInterface::SUCCESS:
+            JS_SetPropertyStr(ctx, obj, "success", JS_NewBool(true));
+            JS_SetPropertyStr(ctx, obj, "message", JS_NewString(ctx, "Reader interaction complete"));
+            break;
+        case RFIDInterface::TAG_NOT_PRESENT:
+            JS_SetPropertyStr(ctx, obj, "success", JS_NewBool(false));
+            JS_SetPropertyStr(ctx, obj, "message", JS_NewString(ctx, "No NFC reader detected"));
+            break;
+        case RFIDInterface::NOT_IMPLEMENTED:
+            JS_SetPropertyStr(ctx, obj, "success", JS_NewBool(false));
+            JS_SetPropertyStr(ctx, obj, "message", JS_NewString(ctx, "Not implemented for this module"));
+            break;
+        case RFIDInterface::FAILURE:
+            JS_SetPropertyStr(ctx, obj, "success", JS_NewBool(false));
+            JS_SetPropertyStr(ctx, obj, "message", JS_NewString(ctx, "Target mode start failed"));
+            break;
+        default:
+            JS_SetPropertyStr(ctx, obj, "success", JS_NewBool(false));
+            JS_SetPropertyStr(ctx, obj, "message", JS_NewString(ctx, "Emulation failed"));
+            break;
+    }
+
+    return obj;
+}
+
+
     // usage: rfidSave(filename : string);
     // returns: { success: boolean, message: string, filepath: string }
 

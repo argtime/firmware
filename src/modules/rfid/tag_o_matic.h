@@ -50,6 +50,7 @@ public:
     String read_tag_headless(int timeout_seconds);
     String read_uid_headless(int timeout_seconds);
     int write_tag_headless(int timeout_seconds);
+    int emulate_tag_headless();
     String save_file_headless(String filename);
     int load_file_headless(String filename);
     RFIDInterface *getRFIDInterface() { return _rfid; } // Controlled Access Getter
